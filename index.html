@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>简历副本 · Resume Raid</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Noto+Sans+SC:wght@300;400;500;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#F9F6F1;
+  --ink:#1A1714;
+  --muted:#8A7F78;
+  --line:#E8E2D9;
+  --card:#FFFFFF;
+  --coral:#FF5C3A;
+  --coral-soft:#FFF0EC;
+  --teal:#0B8A80;
+  --teal-soft:#E0F5F3;
+  --amber:#E8960A;
+  --amber-soft:#FEF6E0;
+  --violet:#6D35D9;
+  --violet-soft:#F0EAFF;
+  --green:#15803D;
+  --green-soft:#DCFCE7;
+}
+
+html{scroll-behavior:smooth}
+
+body{
+font-family:‘Noto Sans SC’,sans-serif;
+background:var(–bg);
+color:var(–ink);
+min-height:100vh;
+overflow-x:hidden;
+}
+
+/* ── LANDING PAGE ── */
+#landing{
+min-height:100vh;
+display:flex;flex-direction:column;
+justify-content:center;align-items:center;
+padding:3rem 2rem;
+text-align:center;
+position:relative;
+overflow:hidden;
+}
+
+.landing-bg{
+position:absolute;inset:0;
+background:
+radial-gradient(ellipse 60% 50% at 80% 20%, rgba(255,92,58,.07), transparent),
+radial-gradient(ellipse 50% 60% at 10% 80%, rgba(11,138,128,.06), transparent),
+radial-gradient(ellipse 40% 40% at 50% 50%, rgba(232,150,10,.04), transparent);
+pointer-events:none;
+}
+
+.landing-tag{
+font-family:‘DM Mono’,monospace;
+font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;
+color:var(–coral);
+border:1.5px solid rgba(255,92,58,.25);
+border-radius:100px;padding:.35rem 1rem;
+margin-bottom:2.5rem;
+display:inline-block;
+animation:fadeUp .6s ease both;
+}
+
+.landing-h1{
+font-family:‘Syne’,sans-serif;
+font-size:clamp(2.4rem,8vw,4rem);
+font-weight:800;line-height:1.1;
+letter-spacing:-.03em;color:var(–ink);
+margin-bottom:1rem;
+animation:fadeUp .6s .1s ease both;
+}
+
+.landing-h1 em{
+font-style:normal;
+background:linear-gradient(135deg,var(–coral),var(–amber));
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+background-clip:text;
+}
+
+.landing-sub{
+font-size:1rem;color:var(–muted);
+line-height:1.8;max-width:480px;
+margin:0 auto 1rem;
+animation:fadeUp .6s .2s ease both;
+}
+
+.landing-action-label{
+font-size:.82rem;color:var(–muted);
+margin-bottom:.8rem;
+animation:fadeUp .6s .3s ease both;
+}
+
+.landing-action-label strong{color:var(–coral)}
+
+.landing-cta{
+display:inline-flex;align-items:center;gap:.6rem;
+background:var(–ink);color:#fff;
+border:none;border-radius:100px;
+padding:1rem 2.4rem;
+font-family:‘Syne’,sans-serif;font-weight:700;font-size:1rem;
+cursor:pointer;
+box-shadow:0 8px 32px rgba(26,23,20,.18);
+transition:all .2s;
+animation:fadeUp .6s .35s ease both;
+}
+.landing-cta:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(26,23,20,.22)}
+.landing-cta:active{transform:translateY(0)}
+.landing-cta-arrow{font-size:1.1rem;transition:transform .2s}
+.landing-cta:hover .landing-cta-arrow{transform:translateX(4px)}
+
+.landing-stats{
+display:flex;gap:2.5rem;justify-content:center;
+margin-top:3rem;
+animation:fadeUp .6s .45s ease both;
+}
+.stat{text-align:center}
+.stat-num{
+font-family:‘Syne’,sans-serif;font-weight:800;font-size:1.6rem;
+color:var(–ink);display:block;
+}
+.stat-label{font-size:.72rem;color:var(–muted)}
+
+.landing-scroll{
+position:absolute;bottom:2rem;left:50%;transform:translateX(-50%);
+font-family:‘DM Mono’,monospace;font-size:.6rem;
+letter-spacing:.15em;color:var(–muted);
+display:flex;flex-direction:column;align-items:center;gap:.4rem;
+animation:bounce 2s ease-in-out infinite;
+}
+.scroll-line{width:1px;height:32px;background:linear-gradient(var(–muted),transparent)}
+
+@keyframes bounce{0%,100%{transform:translateX(-50%) translateY(0)}50%{transform:translateX(-50%) translateY(6px)}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+
+/* ── APP SHELL ── */
+#app{display:none}
+
+header{
+display:flex;justify-content:space-between;align-items:center;
+padding:1.1rem 1.8rem;
+background:rgba(249,246,241,.92);
+backdrop-filter:blur(16px);
+border-bottom:1px solid var(–line);
+position:sticky;top:0;z-index:100;
+}
+.logo{
+font-family:‘Syne’,sans-serif;font-size:1.2rem;font-weight:800;
+letter-spacing:-.02em;color:var(–ink);
+display:flex;align-items:center;gap:.4rem;
+}
+.logo-dot{
+width:8px;height:8px;border-radius:50%;
+background:var(–coral);display:inline-block;
+}
+.hdr-right{
+font-family:‘DM Mono’,monospace;
+font-size:.6rem;color:var(–muted);letter-spacing:.1em;
+}
+
+.prog-wrap{max-width:720px;margin:1.6rem auto .4rem;padding:0 1.8rem}
+.prog-bg{height:3px;background:var(–line);border-radius:10px;overflow:hidden}
+.prog-fill{
+height:100%;border-radius:10px;
+background:linear-gradient(90deg,var(–coral),var(–amber));
+transition:width .5s cubic-bezier(.4,0,.2,1);
+}
+.prog-meta{
+display:flex;justify-content:space-between;
+margin-top:.5rem;
+font-family:‘DM Mono’,monospace;font-size:.58rem;color:var(–muted);
+}
+
+main{max-width:720px;margin:0 auto;padding:2.5rem 1.8rem 7rem}
+
+/* ── STEPS ── */
+.step{display:none}
+.step.active{display:block;animation:stepIn .35s cubic-bezier(.4,0,.2,1)}
+@keyframes stepIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+
+.eyebrow{
+font-family:‘DM Mono’,monospace;
+font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;
+color:var(–coral);margin-bottom:1rem;
+}
+
+.step-h{
+font-family:‘Syne’,sans-serif;font-size:1.9rem;font-weight:800;
+line-height:1.15;letter-spacing:-.02em;
+color:var(–ink);margin-bottom:.6rem;
+}
+
+.step-sub{font-size:.88rem;color:var(–muted);line-height:1.8;margin-bottom:2.5rem}
+
+/* ── SPACIOUS OPTION CARDS ── */
+.opt-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(155px,1fr));
+gap:1rem;margin-bottom:2.5rem;
+}
+
+.ocard{
+background:var(–card);
+border:1.5px solid var(–line);
+border-radius:20px;
+padding:1.4rem 1.2rem;
+cursor:pointer;
+transition:all .2s cubic-bezier(.4,0,.2,1);
+text-align:center;
+position:relative;
+}
+.ocard:hover{
+border-color:rgba(255,92,58,.4);
+transform:translateY(-4px);
+box-shadow:0 12px 32px rgba(255,92,58,.1);
+}
+.ocard.sel{
+border-color:var(–coral);
+background:var(–coral-soft);
+transform:translateY(-2px);
+box-shadow:0 8px 24px rgba(255,92,58,.12);
+}
+.ocard.sel::after{
+content:‘✓’;position:absolute;top:.7rem;right:.8rem;
+font-size:.65rem;color:var(–coral);font-weight:700;
+}
+.ocard .oi{font-size:1.8rem;margin-bottom:.6rem;display:block}
+.ocard .ol{font-weight:700;font-size:.9rem;color:var(–ink);display:block;margin-bottom:.2rem}
+.ocard .os{font-size:.7rem;color:var(–muted);display:block;line-height:1.5}
+.ocard.sel .ol{color:var(–coral)}
+
+/* Career grid — bigger, more breathable */
+.career-grid{
+display:grid;
+grid-template-columns:repeat(auto-fill,minmax(200px,1fr));
+gap:1.2rem;margin-bottom:1.5rem;
+}
+.career-card{
+background:var(–card);border:1.5px solid var(–line);
+border-radius:20px;padding:1.3rem 1.4rem;
+cursor:pointer;transition:all .2s;
+display:flex;align-items:flex-start;gap:.8rem;
+}
+.career-card:hover{border-color:rgba(255,92,58,.4);transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.07)}
+.career-card.sel{border-color:var(–coral);background:var(–coral-soft)}
+.career-icon{font-size:1.5rem;flex-shrink:0;margin-top:.1rem}
+.career-info{}
+.career-name{font-weight:700;font-size:.9rem;color:var(–ink);margin-bottom:.2rem}
+.career-sub{font-size:.72rem;color:var(–muted);line-height:1.5}
+.career-card.sel .career-name{color:var(–coral)}
+
+/* OTHER expandable */
+.other-trigger{
+background:var(–card);border:1.5px dashed var(–line);
+border-radius:20px;padding:1.1rem 1.4rem;
+cursor:pointer;transition:all .2s;
+display:flex;align-items:center;gap:.8rem;
+margin-bottom:1.5rem;
+font-size:.88rem;color:var(–muted);
+}
+.other-trigger:hover{border-color:var(–coral);color:var(–coral)}
+.other-trigger.open{border-color:var(–coral);color:var(–coral);border-style:solid}
+.other-expand{
+max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1);
+}
+.other-expand.open{max-height:200px}
+
+/* ── FIELD ── */
+.field-wrap{margin-bottom:2rem}
+.field-label{
+font-family:‘DM Mono’,monospace;font-size:.6rem;
+letter-spacing:.15em;text-transform:uppercase;
+color:var(–muted);margin-bottom:.6rem;display:block;
+}
+.field{
+width:100%;background:var(–card);
+border:1.5px solid var(–line);border-radius:16px;
+padding:1rem 1.2rem;
+font-family:‘Noto Sans SC’,sans-serif;font-size:.95rem;
+color:var(–ink);outline:none;transition:border-color .15s;
+}
+.field:focus{border-color:var(–coral)}
+.field::placeholder{color:#C4B9B0}
+textarea.field{resize:vertical;min-height:90px}
+
+/* ── CHIPS ── */
+.chip-wrap{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:2rem}
+.chip{
+background:var(–card);border:1.5px solid var(–line);
+border-radius:100px;padding:.45rem 1rem;
+font-size:.82rem;cursor:pointer;transition:all .18s;color:var(–muted);
+}
+.chip:hover{border-color:var(–teal);color:var(–teal)}
+.chip.sel{background:var(–teal-soft);border-color:var(–teal);color:var(–teal);font-weight:700}
+
+/* ── CHOICE (yes/no/unsure) ── */
+.choice-grid{display:grid;gap:1rem;margin-bottom:2.5rem}
+.choice-grid.three{grid-template-columns:repeat(3,1fr)}
+.ccard{
+background:var(–card);border:1.5px solid var(–line);
+border-radius:20px;padding:1.6rem 1rem;
+cursor:pointer;text-align:center;transition:all .18s;
+}
+.ccard:hover{transform:translateY(-3px);box-shadow:0 10px 28px rgba(0,0,0,.07)}
+.ccard.yes:hover,.ccard.yes.sel{border-color:var(–green);background:var(–green-soft)}
+.ccard.no:hover,.ccard.no.sel{border-color:var(–coral);background:var(–coral-soft)}
+.ccard.unsure:hover,.ccard.unsure.sel{border-color:var(–amber);background:var(–amber-soft)}
+.ccard .ce{font-size:2rem;display:block;margin-bottom:.5rem}
+.ccard .cl{font-weight:700;font-size:.95rem;color:var(–ink)}
+.ccard .cs{font-size:.72rem;color:var(–muted);margin-top:.3rem}
+
+/* ── QUIZ ── */
+.quiz-layout{display:grid;grid-template-columns:1fr 180px;gap:1.2rem;align-items:start}
+.quiz-card{
+background:var(–card);border:1.5px solid var(–line);
+border-radius:18px;padding:1.3rem 1.5rem;margin-bottom:.8rem;
+transition:border-color .2s;
+}
+.quiz-card.answered{border-color:var(–teal)}
+.quiz-q{font-weight:700;font-size:.9rem;color:var(–ink);margin-bottom:.9rem;line-height:1.55}
+.qnum{font-family:‘DM Mono’,monospace;font-size:.65rem;color:var(–coral);margin-right:.4rem}
+.quiz-opts{display:flex;gap:.5rem;flex-wrap:wrap}
+.qopt{
+background:var(–bg);border:1.5px solid var(–line);
+border-radius:100px;padding:.38rem .9rem;
+font-size:.78rem;cursor:pointer;transition:all .15s;color:var(–ink);
+}
+.qopt:hover{border-color:var(–coral);color:var(–coral)}
+.qopt.sel{background:#FF5C3A;border-color:#FF5C3A;color:#ffffff;font-weight:700}
+
+.meter-card{
+background:var(–card);border:1.5px solid var(–line);
+border-radius:18px;padding:1.1rem 1.2rem;
+position:sticky;top:80px;
+}
+.meter-title{
+font-family:‘DM Mono’,monospace;font-size:.55rem;
+letter-spacing:.15em;color:var(–muted);text-transform:uppercase;margin-bottom:.9rem;
+}
+.mt{margin-bottom:.7rem}
+.mt-label{display:flex;justify-content:space-between;font-size:.68rem;color:var(–ink);font-weight:600;margin-bottom:.25rem}
+.mt-track{height:5px;background:var(–line);border-radius:10px;overflow:hidden}
+.mt-fill{height:100%;border-radius:10px;transition:width .4s ease}
+
+/* ── PERIOD ── */
+.period-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-bottom:2.5rem}
+.pcard{
+background:var(–card);border:1.5px solid var(–line);
+border-radius:20px;padding:1.5rem 1rem;
+cursor:pointer;transition:all .2s;text-align:center;
+}
+.pcard:hover{border-color:var(–amber);transform:translateY(-3px);box-shadow:0 10px 28px rgba(232,150,10,.1)}
+.pcard.sel{border-color:var(–amber);background:var(–amber-soft)}
+.pcard .pd{font-family:‘Syne’,sans-serif;font-size:2.8rem;font-weight:800;color:var(–ink);line-height:1;display:block}
+.pcard.sel .pd{color:var(–amber)}
+.pcard .pu{font-family:‘DM Mono’,monospace;font-size:.58rem;color:var(–muted);letter-spacing:.1em;display:block;margin-bottom:.5rem}
+.pcard .pp{font-size:.72rem;color:var(–muted);line-height:1.5}
+
+/* ── COMMIT ── */
+.commit-box{
+background:linear-gradient(135deg,#FFF8ED,#FEF6DA);
+border:1.5px solid var(–amber);border-radius:20px;
+padding:1.6rem 1.8rem;margin-bottom:2rem;
+display:none;
+}
+.commit-title{font-family:‘Syne’,sans-serif;font-weight:800;font-size:1rem;color:var(–ink);margin-bottom:.4rem}
+.commit-sub{font-size:.82rem;color:var(–muted);margin-bottom:1.1rem;line-height:1.7}
+.commit-preview{
+background:#fff;border:1.5px solid rgba(232,150,10,.3);
+border-radius:14px;padding:1rem 1.2rem;
+font-size:.88rem;color:var(–ink);line-height:1.9;font-style:italic;
+}
+.cn{color:var(–amber);font-weight:700;font-style:normal;border-bottom:2px dashed var(–amber)}
+.cd{color:var(–coral);font-weight:700;font-style:normal}
+
+/* ── BLUR PREVIEW ── */
+.blur-box{
+background:var(–card);border:1.5px solid var(–line);
+border-radius:20px;overflow:hidden;margin-bottom:1.5rem;
+}
+.blur-head{
+display:flex;justify-content:space-between;align-items:center;
+padding:.8rem 1.3rem;
+background:linear-gradient(135deg,var(–coral-soft),var(–amber-soft));
+border-bottom:1px solid var(–line);
+}
+.blur-head-l{font-family:‘DM Mono’,monospace;font-size:.58rem;letter-spacing:.15em;color:var(–coral);text-transform:uppercase;font-weight:700}
+.lock-pill{background:var(–coral);color:#fff;font-family:‘DM Mono’,monospace;font-size:.52rem;padding:.2rem .6rem;border-radius:100px}
+.blur-body{padding:1.2rem 1.5rem}
+.blur-line{font-size:.85rem;line-height:2.1;color:var(–ink);margin-bottom:.1rem}
+.bw{
+display:inline-block;
+background:linear-gradient(135deg,var(–line),#DDD7CE);
+border-radius:4px;padding:.1rem .4rem;color:transparent;
+min-width:60px;animation:shim 2s ease-in-out infinite;vertical-align:middle;
+}
+@keyframes shim{0%,100%{opacity:1}50%{opacity:.45}}
+.blur-cta{padding:.85rem 1.3rem;text-align:center;font-size:.78rem;color:var(–muted);border-top:1px solid var(–line);background:var(–bg)}
+.blur-cta strong{color:var(–coral)}
+
+/* ── BUTTONS ── */
+.btn-row{display:flex;gap:.8rem;align-items:center;margin-top:1rem;flex-wrap:wrap}
+.btn{
+padding:.85rem 2rem;border-radius:100px;
+font-family:‘DM Mono’,monospace;font-size:.72rem;
+letter-spacing:.06em;text-transform:uppercase;
+cursor:pointer;border:none;transition:all .18s;font-weight:700;
+}
+.btn-ink{background:var(–ink);color:#fff;box-shadow:0 4px 16px rgba(26,23,20,.15)}
+.btn-ink:hover{background:#2d2926;transform:translateY(-2px);box-shadow:0 8px 24px rgba(26,23,20,.2)}
+.btn-coral{background:var(–coral);color:#fff;box-shadow:0 4px 16px rgba(255,92,58,.25)}
+.btn-coral:hover{background:#e04a2a;transform:translateY(-2px)}
+.btn-teal{background:var(–teal);color:#fff;box-shadow:0 4px 16px rgba(11,138,128,.2)}
+.btn-teal:hover{background:#097a71;transform:translateY(-2px)}
+.btn-ghost{background:#FFFFFF;border:2px solid #8A7F78;color:#1A1714}
+.btn-ghost:hover{border-color:var(–ink);color:var(–ink)}
+
+/* ── LOADING (仪式感版) ── */
+.load-wrap{padding:5rem 0;text-align:center}
+.decode-ring{
+width:64px;height:64px;margin:0 auto 2rem;position:relative;
+}
+.decode-ring::before,.decode-ring::after{
+content:’’;position:absolute;inset:0;border-radius:50%;
+}
+.decode-ring::before{
+border:2px solid var(–line);
+}
+.decode-ring::after{
+border:2px solid transparent;
+border-top-color:var(–coral);
+border-right-color:rgba(255,92,58,.3);
+animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.decode-inner{
+position:absolute;inset:10px;border-radius:50%;
+border:1.5px solid transparent;
+border-bottom-color:var(–teal);
+animation:spin .5s linear infinite reverse;
+}
+.load-h{font-family:‘Syne’,sans-serif;font-weight:800;font-size:1.2rem;color:var(–ink);margin-bottom:.4rem}
+.load-s{font-size:.82rem;color:var(–muted);margin-bottom:2rem}
+.load-steps{display:flex;flex-direction:column;gap:.5rem;align-items:flex-start;display:inline-flex}
+.ls{
+font-size:.8rem;color:var(–muted);
+opacity:0;transition:opacity .4s,color .4s;
+display:flex;align-items:center;gap:.5rem;
+font-family:‘DM Mono’,monospace;
+}
+.ls::before{content:‘○’;color:var(–line);font-size:.7rem;transition:all .4s}
+.ls.vis{opacity:1}
+.ls.done{color:var(–teal)}
+.ls.done::before{content:‘●’;color:var(–teal)}
+
+/* ── TASK ── */
+.task-hero{
+background:linear-gradient(135deg,var(–coral-soft),var(–amber-soft));
+border:1.5px solid rgba(255,92,58,.15);
+border-radius:24px;padding:1.8rem 2rem;margin-bottom:1.2rem;
+}
+.th-eyebrow{font-family:‘DM Mono’,monospace;font-size:.58rem;letter-spacing:.2em;color:var(–coral);text-transform:uppercase;margin-bottom:.7rem}
+.th-title{font-family:‘Syne’,sans-serif;font-weight:800;font-size:1.5rem;color:var(–ink);line-height:1.25;margin-bottom:1rem}
+.tag-row{display:flex;gap:.5rem;flex-wrap:wrap}
+.tag{font-family:‘DM Mono’,monospace;font-size:.56rem;padding:.22rem .65rem;border-radius:100px;letter-spacing:.05em;font-weight:700}
+.tc{background:rgba(255,92,58,.1);color:var(–coral)}
+.tt{background:rgba(11,138,128,.08);color:var(–teal)}
+.ta{background:rgba(232,150,10,.1);color:var(–amber)}
+.tv{background:rgba(109,53,217,.08);color:var(–violet)}
+
+/* PERSONALITY */
+.persona-card{
+background:var(–card);border:1.5px solid rgba(109,53,217,.2);
+border-radius:20px;padding:1.5rem 1.8rem;margin-bottom:1.2rem;
+display:flex;gap:1rem;align-items:flex-start;
+}
+.persona-emoji{font-size:2.2rem;flex-shrink:0}
+.persona-type{font-family:‘Syne’,sans-serif;font-weight:800;font-size:1rem;color:var(–violet);margin-bottom:.3rem}
+.persona-desc{font-size:.82rem;color:var(–muted);line-height:1.7}
+
+.info-card{
+background:var(–card);border:1.5px solid var(–line);
+border-radius:20px;overflow:hidden;margin-bottom:1rem;
+}
+.ic-head{
+display:flex;justify-content:space-between;align-items:center;
+padding:.8rem 1.3rem;border-bottom:1px solid var(–line);background:var(–bg);
+}
+.ic-label{font-family:‘DM Mono’,monospace;font-size:.56rem;letter-spacing:.18em;color:var(–muted);text-transform:uppercase}
+.ic-body{padding:1.3rem 1.5rem}
+.ic-text{font-size:.88rem;color:var(–muted);line-height:1.8}
+.ic-list{padding-left:1.1rem}
+.ic-list li{font-size:.85rem;color:var(–muted);line-height:1.9;margin-bottom:.2rem}
+.ic-list li::marker{color:var(–coral)}
+
+.deadline-strip{
+display:flex;align-items:center;gap:.7rem;margin-top:.9rem;
+padding-top:.9rem;border-top:1px dashed var(–line);
+font-family:‘DM Mono’,monospace;font-size:.7rem;color:var(–amber);
+}
+.dl-dot{width:7px;height:7px;border-radius:50%;background:var(–amber);flex-shrink:0;animation:pulse 1.5s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.2}}
+
+/* ── SUPERVISION MODULE ── */
+.supervise-banner{
+background:linear-gradient(135deg,#1A1714,#2D2926);
+border-radius:20px;padding:1.5rem 1.8rem;margin-bottom:1.2rem;
+display:flex;align-items:center;justify-content:space-between;gap:1rem;
+cursor:pointer;transition:transform .2s;
+}
+.supervise-banner:hover{transform:translateY(-2px)}
+.sb-left{}
+.sb-tag{
+font-family:‘DM Mono’,monospace;font-size:.55rem;
+letter-spacing:.15em;text-transform:uppercase;
+color:var(–amber);margin-bottom:.4rem;
+}
+.sb-title{font-family:‘Syne’,sans-serif;font-weight:800;font-size:1rem;color:#fff;margin-bottom:.3rem}
+.sb-sub{font-size:.75rem;color:rgba(255,255,255,.5);line-height:1.5}
+.sb-btn{
+background:var(–amber);color:var(–ink);border:none;
+border-radius:100px;padding:.6rem 1.2rem;
+font-family:‘DM Mono’,monospace;font-size:.65rem;font-weight:700;
+letter-spacing:.05em;cursor:pointer;white-space:nowrap;
+flex-shrink:0;transition:all .15s;
+}
+.sb-btn:hover{background:#d97706}
+
+/* ── MODAL ── */
+.modal-overlay{
+position:fixed;inset:0;background:rgba(26,23,20,.6);
+backdrop-filter:blur(8px);
+z-index:999;display:none;
+align-items:center;justify-content:center;padding:1.5rem;
+}
+.modal-overlay.open{display:flex;animation:fadeIn .25s ease}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{
+background:var(–card);border-radius:24px;
+max-width:420px;width:100%;
+padding:2rem;position:relative;
+animation:modalUp .3s cubic-bezier(.4,0,.2,1);
+box-shadow:0 24px 64px rgba(0,0,0,.15);
+}
+@keyframes modalUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+.modal-close{
+position:absolute;top:1rem;right:1rem;
+background:var(–line);border:none;border-radius:50%;
+width:28px;height:28px;cursor:pointer;
+font-size:.8rem;color:var(–muted);transition:all .15s;
+}
+.modal-close:hover{background:var(–ink);color:#fff}
+.modal-header{text-align:center;margin-bottom:1.5rem}
+.modal-emoji{font-size:2.5rem;display:block;margin-bottom:.6rem}
+.modal-title{font-family:‘Syne’,sans-serif;font-weight:800;font-size:1.2rem;color:var(–ink);margin-bottom:.3rem}
+.modal-price{
+display:inline-block;
+background:var(–coral-soft);color:var(–coral);
+font-family:‘Syne’,sans-serif;font-weight:800;font-size:1.1rem;
+padding:.3rem .9rem;border-radius:100px;border:1.5px solid rgba(255,92,58,.2);
+margin-bottom:.4rem;
+}
+.modal-sub{font-size:.8rem;color:var(–muted);line-height:1.6}
+.modal-benefits{margin-bottom:1.5rem}
+.mb-item{
+display:flex;align-items:flex-start;gap:.7rem;
+padding:.65rem 0;border-bottom:1px solid var(–line);font-size:.85rem;color:var(–ink);line-height:1.5;
+}
+.mb-item:last-child{border-bottom:none}
+.mb-icon{color:var(–coral);flex-shrink:0;font-size:.9rem;margin-top:.1rem}
+.modal-wechat{
+background:var(–bg);border-radius:16px;padding:1.1rem;text-align:center;
+}
+.wechat-label{font-family:‘DM Mono’,monospace;font-size:.6rem;letter-spacing:.15em;color:var(–muted);text-transform:uppercase;margin-bottom:.5rem}
+.wechat-id{
+font-family:‘Syne’,sans-serif;font-weight:800;font-size:1.1rem;color:var(–ink);
+background:var(–card);border:1.5px solid var(–line);
+border-radius:10px;padding:.5rem 1rem;display:inline-block;
+margin-bottom:.4rem;cursor:pointer;transition:all .15s;
+}
+.wechat-id:hover{border-color:var(–coral);color:var(–coral)}
+.wechat-hint{font-size:.72rem;color:var(–muted)}
+.wechat-copy-msg{font-size:.72rem;color:var(–teal);margin-top:.3rem;opacity:0;transition:opacity .3s}
+.wechat-copy-msg.show{opacity:1}
+
+/* ── RESUME UNLOCKED ── */
+.resume-unlocked{
+background:var(–card);border:1.5px solid var(–teal);
+border-radius:20px;overflow:hidden;margin-bottom:1rem;
+}
+.ru-head{
+display:flex;justify-content:space-between;align-items:center;
+padding:.8rem 1.3rem;background:var(–teal-soft);
+border-bottom:1px solid rgba(11,138,128,.15);
+}
+.ru-label{font-family:‘DM Mono’,monospace;font-size:.56rem;letter-spacing:.18em;color:var(–teal);text-transform:uppercase;font-weight:700}
+.copy-btn{
+background:none;border:1.5px solid var(–teal);color:var(–teal);
+font-family:‘DM Mono’,monospace;font-size:.58rem;padding:.22rem .65rem;
+border-radius:100px;cursor:pointer;letter-spacing:.05em;transition:all .15s;font-weight:700;
+}
+.copy-btn:hover{background:var(–teal);color:#fff}
+.ru-body{
+padding:1.4rem 1.6rem;font-family:‘DM Mono’,monospace;
+font-size:.78rem;line-height:2.1;color:var(–muted);white-space:pre-wrap;
+}
+.rh{color:var(–teal);font-weight:700}
+.rp{color:var(–amber)}
+
+/* FILE UPLOAD */
+.upload-zone{
+border:2px dashed var(–line);border-radius:20px;
+padding:2rem;text-align:center;cursor:pointer;
+transition:all .2s;background:var(–card);margin-bottom:1rem;
+}
+.upload-zone:hover{border-color:var(–teal);background:var(–teal-soft)}
+.upload-icon{font-size:2rem;margin-bottom:.6rem;display:block}
+.upload-text{font-weight:700;font-size:.9rem;color:var(–ink);margin-bottom:.3rem}
+.upload-sub{font-size:.74rem;color:var(–muted);margin-bottom:.5rem}
+.upload-req{
+display:inline-flex;align-items:center;gap:.3rem;
+background:rgba(255,92,58,.08);border:1px solid rgba(255,92,58,.2);
+border-radius:100px;padding:.2rem .7rem;font-size:.68rem;color:var(–coral);font-weight:700;
+}
+.file-list{display:flex;flex-direction:column;gap:.4rem;margin-top:.6rem}
+.file-item{
+display:flex;align-items:center;justify-content:space-between;
+background:var(–teal-soft);border:1px solid rgba(11,138,128,.15);
+border-radius:10px;padding:.5rem .8rem;font-size:.8rem;
+}
+.file-name{color:var(–teal);font-weight:600}
+.file-rm{background:none;border:none;color:var(–muted);cursor:pointer;font-size:.8rem}
+.file-rm:hover{color:var(–coral)}
+
+.restart-row{
+margin-top:2.5rem;padding-top:2rem;
+border-top:1.5px dashed var(–line);
+display:flex;gap:.8rem;align-items:center;flex-wrap:wrap;
+}
+
+@media(max-width:600px){
+header{padding:.9rem 1.2rem}
+main{padding:2rem 1.2rem 5rem}
+.step-h{font-size:1.55rem}
+.career-grid{grid-template-columns:1fr}
+.quiz-layout{grid-template-columns:1fr}
+.meter-card{display:none}
+.choice-grid.three{grid-template-columns:1fr}
+.period-grid{grid-template-columns:repeat(3,1fr)}
+.supervise-banner{flex-direction:column;align-items:flex-start}
+}
+
+/* TIINY HOST FIXES */
+.ocard, .career-card, .pcard, .chip, .field, .quiz-card, .info-card {
+border: 2px solid #C4B9B0 !important;
+background: #FFFFFF !important;
+}
+.ocard.sel { border-color: #FF5C3A !important; background: #FFF0EC !important; }
+.career-card.sel { border-color: #FF5C3A !important; background: #FFF0EC !important; }
+.pcard.sel { border-color: #E8960A !important; background: #FEF6E0 !important; }
+.chip.sel { border-color: #0B8A80 !important; background: #E0F5F3 !important; color: #0B8A80 !important; }
+.qopt { background: #F0EBE3 !important; border: 2px solid #C4B9B0 !important; color: #1A1714 !important; padding: .45rem 1rem !important; font-weight: 500 !important; }
+.qopt.sel { background: #FF5C3A !important; border-color: #FF5C3A !important; color: #fff !important; }
+.quiz-card.answered { border-color: #0B8A80 !important; }
+.btn-ghost { background: #FFFFFF !important; border: 2px solid #8A7F78 !important; color: #1A1714 !important; }
+.ccard { border: 2px solid #C4B9B0 !important; background: #FFFFFF !important; }
+.ccard.yes.sel { border-color: #15803D !important; background: #DCFCE7 !important; }
+.ccard.no.sel { border-color: #FF5C3A !important; background: #FFF0EC !important; }
+.ccard.unsure.sel { border-color: #E8960A !important; background: #FEF6E0 !important; }
+.other-trigger { border: 2px dashed #C4B9B0 !important; background: #FFFFFF !important; }
+.blur-box { border: 2px solid #C4B9B0 !important; }
+.commit-box { border: 2px solid #E8960A !important; }
+.resume-unlocked { border: 2px solid #0B8A80 !important; }
+.modal { box-shadow: 0 24px 64px rgba(0,0,0,.25) !important; }
+</style>
+
+</head>
+<body>
+
+<!-- ══ LANDING ══ -->
+
+<div id="landing">
+  <div class="landing-bg"></div>
+
+  <div class="landing-tag">简历副本 · Resume Raid</div>
+
+  <h1 class="landing-h1">
+    简历空白，<br>
+    <em>不是你的错。</em>
+  </h1>
+
+  <p class="landing-sub">
+    没人教过你怎么积累经历。<br>
+    这里只做一件事：给你一个真实的任务去做，做完了，简历自然有东西写。
+  </p>
+
+  <p class="landing-action-label"><strong>3分钟，找到你第一个能做的项目</strong></p>
+
+  <button class="landing-cta" onclick="startApp()">
+    开始 <span class="landing-cta-arrow">→</span>
+  </button>
+
+  <div class="landing-stats">
+    <div class="stat">
+      <span class="stat-num">7</span>
+      <span class="stat-label">道性格题</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">1</span>
+      <span class="stat-label">个专属任务</span>
+    </div>
+    <div class="stat">
+      <span class="stat-num">0</span>
+      <span class="stat-label">元费用</span>
+    </div>
+  </div>
+
+  <div class="landing-scroll">
+    <span>向下了解</span>
+    <div class="scroll-line"></div>
+  </div>
+</div>
+
+<!-- ══ APP ══ -->
+
+<div id="app">
+<header>
+  <div class="logo">Resume<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:#FF5C3A;margin:0 2px 2px"></span>Raid</div>
+  <div class="hdr-right" id="hdr">Step 1 · 年级</div>
+</header>
+
+<div class="prog-wrap">
+  <div class="prog-bg"><div class="prog-fill" id="prog" style="width:8%"></div></div>
+  <div class="prog-meta"><span id="prog-l">年级选择</span><span id="prog-p">8%</span></div>
+</div>
+
+<main>
+
+<!-- S1 年级 -->
+
+<div class="step active" id="s1">
+  <div class="eyebrow">Step 01</div>
+  <div class="step-h">你现在大几？</div>
+  <div class="step-sub">选一个最符合你现状的——不同阶段，任务难度不一样。</div>
+  <div class="opt-grid">
+    <div class="ocard" onclick="pick(this,'year','大一')"><span class="oi">🌱</span><span class="ol">大一</span><span class="os">提前布局<br>入门难度</span></div>
+    <div class="ocard" onclick="pick(this,'year','大二')"><span class="oi">📐</span><span class="ol">大二</span><span class="os">打基础期<br>进阶难度</span></div>
+    <div class="ocard" onclick="pick(this,'year','大三')"><span class="oi">⚡</span><span class="ol">大三</span><span class="os">急需经历<br>挑战难度</span></div>
+    <div class="ocard" onclick="pick(this,'year','大四')"><span class="oi">🔥</span><span class="ol">大四</span><span class="os">最后冲刺<br>极限模式</span></div>
+  </div>
+  <div class="btn-row"><button class="btn btn-ink" onclick="go(2)">继续 →</button></div>
+</div>
+
+<!-- S2 专业 -->
+
+<div class="step" id="s2">
+  <div class="eyebrow">Step 02</div>
+  <div class="step-h">你学的什么专业？</div>
+  <div class="step-sub">冷门热门都行，这里没有鄙视链。</div>
+  <div class="field-wrap">
+    <span class="field-label">专业名称</span>
+    <input class="field" id="major-f" placeholder="例：市场营销、汉语言文学、计算机科学…" oninput="S.major=this.value">
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-ink" onclick="go(3)">继续 →</button>
+    <button class="btn btn-ghost" onclick="go(1)">← 返回</button>
+  </div>
+</div>
+
+<!-- S3 就业方向分叉 -->
+
+<div class="step" id="s3">
+  <div class="eyebrow">Step 03</div>
+  <div class="step-h">你打算走本专业的方向吗？</div>
+  <div class="step-sub">没有对错——很多人工作和专业不一样，太正常了。</div>
+  <div class="choice-grid three">
+    <div class="ccard yes" onclick="branch('yes')"><span class="ce">✅</span><div class="cl">是</div><div class="cs">走专业相关方向</div></div>
+    <div class="ccard no" onclick="branch('no')"><span class="ce">🔀</span><div class="cl">不是</div><div class="cs">想转型跨行</div></div>
+    <div class="ccard unsure" onclick="branch('unsure')"><span class="ce">🌀</span><div class="cl">还没想好</div><div class="cs">边走边看</div></div>
+  </div>
+  <div class="btn-row"><button class="btn btn-ghost" onclick="go(2)">← 返回</button></div>
+</div>
+
+<!-- S3b 目标方向 -->
+
+<div class="step" id="s3b">
+  <div class="eyebrow">Step 03 · 目标方向</div>
+  <div class="step-h">你理想中想做哪个方向？</div>
+  <div class="step-sub">选跟你<strong>想投递的实习或未来就业</strong>最相关的——这是匹配项目的核心权重。</div>
+
+  <div class="career-grid">
+    <div class="career-card" onclick="pickCareer(this,'市场/品牌')"><span class="career-icon">📣</span><div class="career-info"><div class="career-name">市场 / 品牌</div><div class="career-sub">营销、公关、内容运营</div></div></div>
+    <div class="career-card" onclick="pickCareer(this,'产品/运营')"><span class="career-icon">🎯</span><div class="career-info"><div class="career-name">产品 / 运营</div><div class="career-sub">互联网产品、用户增长</div></div></div>
+    <div class="career-card" onclick="pickCareer(this,'数据/分析')"><span class="career-icon">📊</span><div class="career-info"><div class="career-name">数据 / 分析</div><div class="career-sub">BI、咨询、市场研究</div></div></div>
+    <div class="career-card" onclick="pickCareer(this,'设计/创意')"><span class="career-icon">✏️</span><div class="career-info"><div class="career-name">设计 / 创意</div><div class="career-sub">UI/UX、视觉、广告</div></div></div>
+    <div class="career-card" onclick="pickCareer(this,'金融/投行')"><span class="career-icon">💹</span><div class="career-info"><div class="career-name">金融 / 投行</div><div class="career-sub">IB、基金、财务咨询</div></div></div>
+    <div class="career-card" onclick="pickCareer(this,'技术/开发')"><span class="career-icon">💻</span><div class="career-info"><div class="career-name">技术 / 开发</div><div class="career-sub">研发、算法、后端</div></div></div>
+    <div class="career-card" onclick="pickCareer(this,'人力/管培')"><span class="career-icon">🤝</span><div class="career-info"><div class="career-name">人力 / 管培</div><div class="career-sub">HR、管理培训生</div></div></div>
+    <div class="career-card" onclick="pickCareer(this,'传媒/内容')"><span class="career-icon">📝</span><div class="career-info"><div class="career-name">传媒 / 内容</div><div class="career-sub">新媒体、记者、编辑</div></div></div>
+  </div>
+
+  <!-- OTHER 展开式 -->
+
+  <div class="other-trigger" id="other-trigger" onclick="toggleOther()">
+    <span>✏️</span>
+    <span id="other-trigger-text">我的方向不在上面，点击填写 →</span>
+  </div>
+  <div class="other-expand" id="other-expand">
+    <div class="field-wrap" style="margin-bottom:1rem">
+      <span class="field-label">你想去的方向（详细写，比如：跨境电商运营、文旅策划、公务员…）</span>
+      <textarea class="field" id="other-career" rows="3" placeholder="写得越具体，匹配到的项目越准确。不知道怎么描述的话，就说你理想中的一天是在做什么事情。"></textarea>
+    </div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-ink" onclick="go(4)">选好了 →</button>
+    <button class="btn btn-ghost" onclick="go(3)">← 返回</button>
+  </div>
+</div>
+
+<!-- S4 性格测试 -->
+
+<div class="step" id="s4">
+  <div class="eyebrow">Step 04 · 性格解码</div>
+  <div class="step-h">来做个小测试 🧠</div>
+  <div class="step-sub">7道题，2分钟搞定。答得越真实，项目匹配越准。</div>
+  <div class="quiz-layout">
+    <div id="quiz-wrap"></div>
+    <div class="meter-card">
+      <div class="meter-title">你的性格轮廓</div>
+      <div id="meter"></div>
+    </div>
+  </div>
+  <div class="btn-row" style="margin-top:1rem">
+    <button class="btn btn-ink" onclick="go(5)">答完了 →</button>
+    <button class="btn btn-ghost" onclick="go(3)">← 返回</button>
+  </div>
+</div>
+
+<!-- S5 兴趣 -->
+
+<div class="step" id="s5">
+  <div class="eyebrow">Step 05 · 兴趣爱好</div>
+  <div class="step-h">平时喜欢做什么？</div>
+  <div class="step-sub">兴趣是找任务切入点的关键，让项目更有你自己的味道。</div>
+  <div class="chip-wrap" id="interest-chips">
+    <div class="chip" onclick="toggleChip(this,'追剧/电影')">🎬 追剧/电影</div>
+    <div class="chip" onclick="toggleChip(this,'游戏')">🎮 游戏</div>
+    <div class="chip" onclick="toggleChip(this,'运动健身')">💪 运动健身</div>
+    <div class="chip" onclick="toggleChip(this,'阅读写作')">📖 阅读写作</div>
+    <div class="chip" onclick="toggleChip(this,'摄影/视频')">📸 摄影/视频</div>
+    <div class="chip" onclick="toggleChip(this,'美食探店')">🍜 美食探店</div>
+    <div class="chip" onclick="toggleChip(this,'旅行')">✈️ 旅行</div>
+    <div class="chip" onclick="toggleChip(this,'音乐')">🎵 音乐</div>
+    <div class="chip" onclick="toggleChip(this,'社群/组织')">👥 社群组织</div>
+    <div class="chip" onclick="toggleChip(this,'投资理财')">📈 投资理财</div>
+    <div class="chip" onclick="toggleChip(this,'设计/画画')">🎨 设计/画画</div>
+    <div class="chip" onclick="toggleChip(this,'编程/工具')">⚙️ 编程/工具</div>
+  </div>
+  <div class="field-wrap">
+    <input class="field" id="interest-other" placeholder="还有其他兴趣？自己加～">
+  </div>
+  <div class="btn-row">
+    <button class="btn btn-ink" onclick="go(6)">继续 →</button>
+    <button class="btn btn-ghost" onclick="go(4)">← 返回</button>
+  </div>
+</div>
+
+<!-- S6 周期+承诺 -->
+
+<div class="step" id="s6">
+  <div class="eyebrow">Step 06 · 立下承诺</div>
+  <div class="step-h">你打算花多久完成？</div>
+  <div class="step-sub">选一个你<strong>真的能做到</strong>的周期——这是你对自己的约定。</div>
+  <div class="period-grid">
+    <div class="pcard" onclick="pickPeriod(this,'3天',3)"><span class="pd">3</span><span class="pu">天</span><span class="pp">快攻型<br>高强度</span></div>
+    <div class="pcard" onclick="pickPeriod(this,'1周',7)"><span class="pd">7</span><span class="pu">天</span><span class="pp">标准型<br>⭐ 推荐</span></div>
+    <div class="pcard" onclick="pickPeriod(this,'2周',14)"><span class="pd">14</span><span class="pu">天</span><span class="pp">稳健型<br>深度产出</span></div>
+  </div>
+
+  <div class="blur-box">
+    <div class="blur-head"><span class="blur-head-l">🔒 你的简历预览（完成后解锁）</span><span class="lock-pill">待解锁</span></div>
+    <div class="blur-body">
+      <div class="blur-line">• 主导针对<span class="bw" style="min-width:80px"></span>领域的<span class="bw" style="min-width:60px"></span>项目，覆盖<span class="bw" style="min-width:30px"></span>个维度</div>
+      <div class="blur-line">• 运用<span class="bw" style="min-width:90px"></span>，独立产出<span class="bw" style="min-width:70px"></span>份交付物</div>
+      <div class="blur-line">• 结果：<span class="bw" style="min-width:160px"></span>量化成果</div>
+    </div>
+    <div class="blur-cta">提交产出后，<strong>每个格子都会被你真实的数据填满</strong> 🎯</div>
+  </div>
+
+  <div class="commit-box" id="commit-box">
+    <div class="commit-title">✍️ 写下你的名字，立个flag</div>
+    <div class="commit-sub">名字会写进承诺书里。完成了是成就感，没完成……你自己知道就好。</div>
+    <div class="field-wrap" style="margin-bottom:.9rem">
+      <input class="field" id="name-f" placeholder="你叫什么？（昵称也行）" oninput="updateCommit()">
+    </div>
+    <div class="commit-preview" id="commit-prev">填上名字，这里生成你的专属承诺书 📜</div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-coral" onclick="generate()">生成我的专属任务 ✦</button>
+    <button class="btn btn-ghost" onclick="go(5)">← 返回</button>
+  </div>
+</div>
+
+<!-- LOADING -->
+
+<div class="step" id="s-load">
+  <div class="load-wrap">
+    <div class="decode-ring"><div class="decode-inner"></div></div>
+    <div class="load-h">系统解码中…</div>
+    <div class="load-s">正在分析你的性格底色，匹配最适合你的项目</div>
+    <div class="load-steps" id="load-steps"></div>
+  </div>
+</div>
+
+<!-- S7 任务副本 -->
+
+<div class="step" id="s7">
+  <div class="eyebrow">你的专属任务</div>
+  <div class="task-hero">
+    <div class="th-eyebrow">🎯 根据你的性格 × 方向 × 兴趣匹配</div>
+    <div class="th-title" id="task-title">—</div>
+    <div class="tag-row" id="task-tags"></div>
+  </div>
+
+  <div class="persona-card">
+    <span class="persona-emoji" id="p-emoji">🧠</span>
+    <div><div class="persona-type" id="p-type">—</div><div class="persona-desc" id="p-desc">—</div></div>
+  </div>
+
+  <div class="info-card">
+    <div class="ic-head"><span class="ic-label">任务详情</span></div>
+    <div class="ic-body">
+      <div class="ic-text" id="task-what"></div>
+      <br>
+      <div style="font-family:'DM Mono',monospace;font-size:.58rem;letter-spacing:.15em;color:var(--muted);text-transform:uppercase;margin-bottom:.6rem">执行步骤</div>
+      <ul class="ic-list" id="task-steps"></ul>
+      <div class="deadline-strip">
+        <div class="dl-dot"></div>
+        <span id="task-deadline">截止日期计算中…</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="info-card">
+    <div class="ic-head"><span class="ic-label">必须产出</span><span class="tag tc">Deliverables</span></div>
+    <div class="ic-body"><ul class="ic-list" id="task-outputs"></ul></div>
+  </div>
+
+  <!-- 监督模块 -->
+
+  <div class="supervise-banner" onclick="openModal()">
+    <div class="sb-left">
+      <div class="sb-tag">👀 需要有人盯着你？</div>
+      <div class="sb-title">自己做容易半途而废</div>
+      <div class="sb-sub">卡住了有人解答 · 进度有人把控 · 做完帮你优化简历</div>
+    </div>
+    <button class="sb-btn">了解陪跑 →</button>
+  </div>
+
+  <div class="blur-box">
+    <div class="blur-head"><span class="blur-head-l">🔒 简历预览（提交产出后解锁）</span><span class="lock-pill">提交后解锁</span></div>
+    <div class="blur-body">
+      <div class="blur-line">• <span class="bw" style="min-width:220px"></span></div>
+      <div class="blur-line">• <span class="bw" style="min-width:160px"></span> <span class="bw" style="min-width:100px"></span></div>
+      <div class="blur-line">• 结果：<span class="bw" style="min-width:180px"></span></div>
+    </div>
+    <div class="blur-cta">做完任务、提交截图，这里变成你<strong>真实的简历话术</strong> 🚀</div>
+  </div>
+
+  <div class="btn-row">
+    <button class="btn btn-teal" onclick="go('submit')">我完成了，提交产出 →</button>
+    <button class="btn btn-ghost" onclick="generate()">换一个任务</button>
+  </div>
+</div>
+
+<!-- SUBMIT -->
+
+<div class="step" id="s-submit">
+  <div class="eyebrow">Step 08 · 提交产出</div>
+  <div class="step-h">说说你做了什么</div>
+  <div class="step-sub">写得越具体，生成的简历话术越真实有力。你的每个数字都是武器。</div>
+  <div class="field-wrap">
+    <span class="field-label">产出描述</span>
+    <textarea class="field" id="user-output" rows="5" placeholder="例：我分析了3个平台上5个品牌的内容策略，对比了发布频率、互动率，写了一篇4500字的报告……"></textarea>
+  </div>
+  <div class="upload-zone" onclick="document.getElementById('file-inp').click()" ondragover="ev.preventDefault()" ondrop="dropF(event)">
+    <input type="file" id="file-inp" multiple accept="image/*,.pdf,.doc,.docx" style="display:none" onchange="handleF(this.files)">
+    <span class="upload-icon">📎</span>
+    <div class="upload-text">上传截图或文件</div>
+    <div class="upload-sub">把你的作品、截图、报告传上来</div>
+    <div class="upload-req">📸 截图必须上传</div>
+  </div>
+  <div class="file-list" id="file-list"></div>
+  <div class="btn-row" style="margin-top:1.5rem">
+    <button class="btn btn-teal" onclick="genFinal()">生成我的简历话术 ✦</button>
+    <button class="btn btn-ghost" onclick="go('s7')">← 返回任务</button>
+  </div>
+</div>
+
+<!-- FINAL LOADING -->
+
+<div class="step" id="s-fload">
+  <div class="load-wrap">
+    <div class="decode-ring" style="border-color:transparent"><div class="decode-inner" style="border-bottom-color:var(--teal)"></div></div>
+    <div class="load-h">生成你的简历话术</div>
+    <div class="load-s">基于你的真实产出，让HR相信的那种</div>
+    <div class="load-steps" id="fload-steps"></div>
+  </div>
+</div>
+
+<!-- FINAL -->
+
+<div class="step" id="s-final">
+  <div class="eyebrow">完成 · 简历已解锁 🎊</div>
+  <div class="step-h" id="final-title">你的简历话术</div>
+  <div class="step-sub">直接复制粘贴进简历。面试官问起来，每个字你都能说清楚。</div>
+  <div class="resume-unlocked">
+    <div class="ru-head"><span class="ru-label">✦ 简历话术（可直接使用）</span><button class="copy-btn" onclick="copyR()">复制全部</button></div>
+    <div class="ru-body" id="final-resume"></div>
+  </div>
+  <div class="info-card">
+    <div class="ic-head"><span class="ic-label">面试时怎么说</span><span class="tag tv">Interview</span></div>
+    <div class="ic-body"><ul class="ic-list" id="final-tips"></ul></div>
+  </div>
+  <div class="info-card">
+    <div class="ic-head"><span class="ic-label">下一步建议</span><span class="tag tt">Next Steps</span></div>
+    <div class="ic-body"><ul class="ic-list" id="final-advice"></ul></div>
+  </div>
+  <div class="supervise-banner" onclick="openModal()" style="margin-top:1rem">
+    <div class="sb-left">
+      <div class="sb-tag">🎯 想把下一个做得更好？</div>
+      <div class="sb-title">有人陪跑，结果差很多</div>
+      <div class="sb-sub">19.9元 · 全程盯着你把事情做完</div>
+    </div>
+    <button class="sb-btn">加微信 →</button>
+  </div>
+  <div class="restart-row">
+    <button class="btn btn-ghost" onclick="restart()">再做一个项目 🔄</button>
+    <span style="font-family:'DM Mono',monospace;font-size:.62rem;color:var(--muted)">每个项目都是简历上的硬货</span>
+  </div>
+</div>
+
+</main>
+</div>
+
+<!-- ══ MODAL ══ -->
+
+<div class="modal-overlay" id="modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('modal').classList.remove('open')">✕</button>
+    <div class="modal-header">
+      <span class="modal-emoji">🎯</span>
+      <div class="modal-title">做项目最怕的不是难</div>
+      <div class="modal-price">19.9元 · 全程陪跑一次</div>
+      <div class="modal-sub">是做到一半没人管你，然后就鸽了自己</div>
+    </div>
+    <div class="modal-benefits">
+      <div class="mb-item"><span class="mb-icon">→</span>卡住了随时问，当天回复，不让你一个人干瞪眼</div>
+      <div class="mb-item"><span class="mb-icon">→</span>帮你把控节奏，不让你鸽自己、拖过截止日期</div>
+      <div class="mb-item"><span class="mb-icon">→</span>做完帮你检查产出，简历写法过关为止</div>
+      <div class="mb-item"><span class="mb-icon">→</span>不是课程，不是模板，就是有个人盯着你把这件事做完</div>
+    </div>
+    <div class="modal-wechat">
+      <div class="wechat-label">微信号（点击复制）</div>
+      <div class="wechat-id" onclick="copyWechat()">yyqyyjksxml</div>
+      <div class="wechat-hint">备注「陪跑」，我看到就回</div>
+      <div class="wechat-copy-msg" id="wcopy-msg">已复制微信号 ✓</div>
+    </div>
+  </div>
+</div>
+
+<script>
+const S={year:'',major:'',branch:'',career:'',interests:[],period:'',periodDays:0,name:'',deadline:'',quiz:{},task:null,files:[]};
+let traits={executor:50,creativity:50,analytical:50,social:50};
+
+const QUIZ=[
+  {id:'q1',q:'面对一个全新任务，你通常会…',opts:['先查资料，想清楚再动','直接开始，边做边调整']},
+  {id:'q2',q:'完成任务时，你更享受…',opts:['独立深度研究一件事','和不同的人交流碰撞想法']},
+  {id:'q3',q:'结果不达预期，你第一反应是…',opts:['复盘哪里出了问题','想下一步怎么弥补']},
+  {id:'q4',q:'你的朋友会怎么形容你？',opts:['靠谱踏实，说到做到','创意十足，脑洞大开']},
+  {id:'q5',q:'做项目时，你更擅长…',opts:['执行细节，把事情做精','宏观规划，把方向定准']},
+  {id:'q6',q:'面对模糊的任务要求，你会…',opts:['主动澄清，明确再做','接受模糊，灵活应对']},
+  {id:'q7',q:'你平时更倾向于…',opts:['深挖一个领域到精通','广泛涉猎多个领域']},
+];
+
+const TRAIT_MAP={
+  q1:[{analytical:8,executor:4},{executor:6,creativity:5}],
+  q2:[{analytical:7,executor:5},{social:8,creativity:6}],
+  q3:[{analytical:9},{executor:7,social:4}],
+  q4:[{executor:8,analytical:4},{creativity:9,social:5}],
+  q5:[{executor:9,analytical:5},{creativity:6,analytical:6}],
+  q6:[{analytical:8,executor:4},{creativity:7,social:5}],
+  q7:[{analytical:9,executor:6},{creativity:8,social:7}],
+};
+
+const METAS={
+  1:{l:'年级选择',p:8,h:'Step 1 · 年级'},
+  2:{l:'填写专业',p:16,h:'Step 2 · 专业'},
+  3:{l:'职业方向',p:24,h:'Step 3 · 方向'},
+  '3b':{l:'目标方向',p:30,h:'Step 3 · 目标'},
+  4:{l:'性格测试',p:40,h:'Step 4 · 性格'},
+  5:{l:'兴趣爱好',p:52,h:'Step 5 · 兴趣'},
+  6:{l:'立下承诺',p:64,h:'Step 6 · 承诺'},
+  'load':{l:'解码中…',p:75,h:'系统解码中'},
+  7:{l:'任务副本',p:82,h:'你的任务'},
+  'submit':{l:'提交产出',p:90,h:'Step 8 · 提交'},
+  'fload':{l:'生成中…',p:95,h:'生成简历'},
+  'final':{l:'完成！',p:100,h:'✦ 完成'},
+};
+
+function startApp(){
+  document.getElementById('landing').style.display='none';
+  document.getElementById('app').style.display='block';
+}
+
+function go(n){
+  if(n===2&&!S.year){alert('先选一下年级～');return}
+  if(n===3&&!S.major.trim()){alert('填一下你的专业哦');return}
+  if(n===4&&!S.career){return}
+
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  const id=typeof n==='number'?`s${n}`:`s-${n}`;
+  const el=document.getElementById(id)||document.getElementById(`s${n}`);
+  if(el)el.classList.add('active');
+
+  if(n===4)initQuiz();
+
+  const m=METAS[n]||{l:'',p:50,h:'Resume Raid'};
+  document.getElementById('prog').style.width=m.p+'%';
+  document.getElementById('prog-l').textContent=m.l;
+  document.getElementById('prog-p').textContent=m.p+'%';
+  document.getElementById('hdr').textContent=m.h;
+  window.scrollTo(0,0);
+}
+
+function pick(el,k,v){
+  el.closest('.opt-grid').querySelectorAll('.ocard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');S[k]=v;
+}
+
+function pickCareer(el,v){
+  document.querySelectorAll('.career-card').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');S.career=v;
+}
+
+function branch(ans){
+  S.branch=ans;
+  if(ans==='yes'){S.career=S.major+'相关';go(4);}
+  else go('3b');
+}
+
+function toggleOther(){
+  const t=document.getElementById('other-trigger');
+  const e=document.getElementById('other-expand');
+  const open=e.classList.toggle('open');
+  t.classList.toggle('open',open);
+  document.getElementById('other-trigger-text').textContent=open?'收起 ↑':'我的方向不在上面，点击填写 →';
+}
+
+function toggleChip(el,v){
+  el.classList.toggle('sel');
+  if(el.classList.contains('sel')){if(!S.interests.includes(v))S.interests.push(v);}
+  else S.interests=S.interests.filter(i=>i!==v);
+}
+
+function pickPeriod(el,label,days){
+  document.querySelectorAll('.pcard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  S.period=label;S.periodDays=days;
+  const d=new Date();d.setDate(d.getDate()+days);
+  S.deadline=`${d.getMonth()+1}月${d.getDate()}日`;
+  document.getElementById('commit-box').style.display='block';
+  updateCommit();
+}
+
+function updateCommit(){
+  const n=document.getElementById('name-f').value.trim();S.name=n;
+  const p=document.getElementById('commit-prev');
+  if(!n){p.innerHTML='填上名字，这里生成你的专属承诺书 📜';return;}
+  p.innerHTML=`"我，<span class="cn">${n}</span>，承诺在 <span class="cd">${S.deadline||'__'}</span> 之前，完成这次任务并提交真实产出。<br>做到了是成长，没做到……嗯，至少还有下次。"`;
+}
+
+function initQuiz(){
+  document.getElementById('quiz-wrap').innerHTML=QUIZ.map((q,i)=>`
+    <div class="quiz-card" id="qc-${q.id}">
+      <div class="quiz-q"><span class="qnum">Q${i+1}</span>${q.q}</div>
+      <div class="quiz-opts">
+        ${q.opts.map((o,oi)=>`<div class="qopt" onclick="ansQ('${q.id}',${oi},this)">${o}</div>`).join('')}
+      </div>
+    </div>`).join('');
+  renderMeter();
+}
+
+function ansQ(qid,val,el){
+  document.getElementById('qc-'+qid).querySelectorAll('.qopt').forEach(o=>o.classList.remove('sel'));
+  el.classList.add('sel');
+  document.getElementById('qc-'+qid).classList.add('answered');
+  S.quiz[qid]=val;
+  const deltas=TRAIT_MAP[qid]?.[val]||{};
+  Object.entries(deltas).forEach(([k,v])=>{traits[k]=Math.min(100,traits[k]+v);});
+  renderMeter();
+}
+
+function renderMeter(){
+  const dims=[{id:'executor',label:'执行力',c:'#FF5C3A'},{id:'creativity',label:'创造力',c:'#6D35D9'},{id:'analytical',label:'分析力',c:'#0B8A80'},{id:'social',label:'表达力',c:'#E8960A'}];
+  document.getElementById('meter').innerHTML=dims.map(d=>`
+    <div class="mt">
+      <div class="mt-label"><span>${d.label}</span><span>${Math.round(traits[d.id])}%</span></div>
+      <div class="mt-track"><div class="mt-fill" style="width:${traits[d.id]}%;background:${d.c}"></div></div>
+    </div>`).join('');
+}
+
+/* personality track */
+function getTrack(){
+  const exec=traits.executor,anal=traits.analytical;
+  if(exec>=anal)return'executor';
+  return'analytical';
+}
+
+async function delay(ms){return new Promise(r=>setTimeout(r,ms))}
+
+async function animLoad(cid,msgs,iv=600){
+  const c=document.getElementById(cid);
+  c.innerHTML=msgs.map(m=>`<div class="ls">${m}</div>`).join('');
+  const items=c.querySelectorAll('.ls');
+  for(let i=0;i<items.length;i++){
+    await delay(iv);items[i].classList.add('vis');
+    if(i>0)items[i-1].classList.add('done');
+  }
+  await delay(iv);items[items.length-1].classList.add('done');
+}
+
+async function generate(){
+  if(!S.period){alert('先选一个完成周期哦');return}
+  if(!S.name.trim()){alert('写上你的名字才能立flag！');return}
+
+  const other=document.getElementById('interest-other').value.trim();
+  if(other&&!S.interests.includes(other))S.interests.push(other);
+
+  const otherCareer=document.getElementById('other-career')?.value.trim();
+  if(otherCareer)S.career=otherCareer;
+
+  go('load');
+  const track=getTrack();
+  const traitStr=Object.entries(traits).map(([k,v])=>`${k}:${Math.round(v)}`).join(',');
+
+  const loadP=animLoad('load-steps',[
+    '读取性格底色数据',
+    '结合就业方向筛选任务库',
+    '融入兴趣爱好找切入点',
+    '匹配话术风格（'+( track==='executor'?'硬核执行派':'深度思考派')+'）',
+    '生成可交付物清单',
+  ]);
+
+  const toneNote=track==='executor'
+    ?"话术风格：硬核执行派——直接、干脆、结果导向。少废话，上来就说做了什么、产出了什么、数字是多少。"
+    :"话术风格：深度思考派——有逻辑、有洞察、给理由。解释为什么这样做、发现了什么、结论对实际决策有什么意义。";
+
+  const prompt=`你是一个专业的大学生简历顾问。请根据以下信息生成项目任务和性格分析。
+
+学生信息：
+- 年级：${S.year}，专业：${S.major}
+- 就业方向（最高权重）：${S.career}
+- 兴趣：${S.interests.join('、')||'未填写'}
+- 周期：${S.period}
+- 性格维度：${traitStr}
+- ${toneNote}
+
+严格按JSON输出，不要其他内容：
+{
+  "personality_emoji":"一个emoji",
+  "personality_type":"性格类型（6字内）",
+  "personality_desc":"性格分析（2句，亲切语气，说清楚该学生的特点和做事风格）",
+  "title":"任务标题（动词开头，15字内）",
+  "what":"任务背景（3句，说清楚做什么/为何有用/兴趣切入点，语气轻松）",
+  "steps":["步骤1（含工具）","步骤2","步骤3","步骤4"],
+  "outputs":["产出1（具体量化）","产出2","产出3"],
+  "difficulty":"入门/进阶/挑战"
+}`;
+
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:1000,messages:[{role:"user",content:prompt}]})
+    });
+    const d=await res.json();
+    S.task=JSON.parse(d.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim());
+  }catch(e){S.task=fallbackTask(track);}
+
+  await loadP;
+  renderTask();
+}
+
+function renderTask(){
+  const t=S.task;
+  document.getElementById('task-title').textContent=t.title;
+  document.getElementById('task-tags').innerHTML=[
+    `<span class="tag tc">${S.year}</span>`,
+    `<span class="tag tt">${S.career}</span>`,
+    `<span class="tag ta">周期 ${S.period}</span>`,
+    `<span class="tag tv">难度 ${t.difficulty}</span>`,
+  ].join('');
+  document.getElementById('p-emoji').textContent=t.personality_emoji||'🧠';
+  document.getElementById('p-type').textContent=t.personality_type||'';
+  document.getElementById('p-desc').textContent=t.personality_desc||'';
+  document.getElementById('task-what').textContent=t.what;
+  document.getElementById('task-steps').innerHTML=t.steps.map(s=>`<li>${s}</li>`).join('');
+  document.getElementById('task-outputs').innerHTML=t.outputs.map(o=>`<li>${o}</li>`).join('');
+  document.getElementById('task-deadline').innerHTML=
+    `<strong>${S.name}</strong> 承诺在 <strong style="color:var(--coral)">${S.deadline}</strong> 前完成并提交`;
+  go(7);
+}
+
+function handleF(files){
+  [...files].forEach(f=>{if(!S.files.find(x=>x.name===f.name))S.files.push(f);});
+  renderFL();
+}
+function renderFL(){
+  document.getElementById('file-list').innerHTML=S.files.map((f,i)=>`
+    <div class="file-item">
+      <span class="file-name">${f.type.startsWith('image')?'📸':'📄'} ${f.name}</span>
+      <button class="file-rm" onclick="S.files.splice(${i},1);renderFL()">✕</button>
+    </div>`).join('');
+}
+function dropF(e){e.preventDefault();handleF(e.dataTransfer.files);}
+
+async function genFinal(){
+  const out=document.getElementById('user-output').value.trim();
+  if(out.length<20){alert('多写一点你实际做了什么，越具体简历越有力');return}
+  if(S.files.length===0){alert('记得上传截图！这是你产出真实存在的证明 📸');return}
+
+  go('fload');
+  const track=getTrack();
+  const toneNote=track==='executor'
+    ?"输出风格：硬核执行派——动词有力，数字突出，结果先行。句子简短干脆。"
+    :"输出风格：深度思考派——逻辑清晰，有洞察，解释why。体现分析深度。";
+
+  const floadP=animLoad('fload-steps',[
+    '解析你的产出描述',
+    '提取可量化的成果数据',
+    '套用STAR结构',
+    '对齐'+S.career+'岗位JD关键词',
+    '优化表达，让HR眼前一亮',
+  ],650);
+
+  const prompt=`你是简历优化顾问。基于学生真实产出生成简历话术。
+
+项目：${S.task?.title}，方向：${S.career}，年级：${S.year}，周期：${S.period}
+${toneNote}
+
+学生产出描述：
+${out}
+（已提交${S.files.length}个文件佐证）
+
+严格按JSON输出：
+{
+  "resume_title":"简历项目标题（10字内）",
+  "resume_lines":["简历第1条（行动+方法，动词开头，含量化，30字内）","简历第2条（工具+深度）","简历第3条（结果+价值，量化成果）"],
+  "interview_tips":["面试建议1","面试建议2","面试建议3"],
+  "next_steps":["下一步1","下一步2","下一步3"]
+}
+
+注意：
+1. 有数字一定用上，没有数字就合理估算并标注（约）
+2. ${track==='executor'?'动词强硬：主导/推动/落地/产出/执行':'动词有深度：系统性分析/深度拆解/提炼洞察/构建框架'}
+3. 语言符合${S.career}岗位JD用词`;
+
+  try{
+    const res=await fetch("https://api.anthropic.com/v1/messages",{
+      method:"POST",headers:{"Content-Type":"application/json"},
+      body:JSON.stringify({model:"claude-sonnet-4-20250514",max_tokens:900,messages:[{role:"user",content:prompt}]})
+    });
+    const d=await res.json();
+    const r=JSON.parse(d.content.map(i=>i.text||'').join('').replace(/```json|```/g,'').trim());
+    await floadP;renderFinal(r);
+  }catch(e){await floadP;renderFinal(fallbackFinal());}
+}
+
+function renderFinal(r){
+  document.getElementById('final-title').textContent=r.resume_title+' · 解锁成功 🎊';
+  const lines=r.resume_lines.map(l=>l.replace(/(\d+[\w%个份次篇条页字万+]+)/g,'<span class="rp">$1</span>'));
+  document.getElementById('final-resume').innerHTML=`<span class="rh">【${r.resume_title}】</span>\n`+lines.map(l=>`• ${l}`).join('\n');
+  document.getElementById('final-tips').innerHTML=r.interview_tips.map(t=>`<li>${t}</li>`).join('');
+  document.getElementById('final-advice').innerHTML=r.next_steps.map(s=>`<li>${s}</li>`).join('');
+  go('final');
+}
+
+function copyR(){
+  navigator.clipboard.writeText(document.getElementById('final-resume').innerText).then(()=>{
+    const b=document.querySelector('.copy-btn');b.textContent='复制成功 ✓';
+    setTimeout(()=>b.textContent='复制全部',2000);
+  });
+}
+
+function openModal(){document.getElementById('modal').classList.add('open')}
+function closeModal(e){if(e.target===document.getElementById('modal'))document.getElementById('modal').classList.remove('open')}
+
+function copyWechat(){
+  navigator.clipboard.writeText('yyqyyjksxml').then(()=>{
+    const m=document.getElementById('wcopy-msg');
+    m.classList.add('show');setTimeout(()=>m.classList.remove('show'),2500);
+  });
+}
+
+function restart(){
+  Object.assign(S,{year:'',major:'',branch:'',career:'',interests:[],period:'',periodDays:0,name:'',deadline:'',quiz:{},task:null,files:[]});
+  traits={executor:50,creativity:50,analytical:50,social:50};
+  document.querySelectorAll('.ocard,.chip,.pcard,.career-card').forEach(e=>e.classList.remove('sel'));
+  ['major-f','name-f','user-output','interest-other','other-career'].forEach(id=>{const e=document.getElementById(id);if(e)e.value='';});
+  document.getElementById('file-list').innerHTML='';
+  document.getElementById('commit-box').style.display='none';
+  document.getElementById('other-expand').classList.remove('open');
+  document.getElementById('other-trigger').classList.remove('open');
+  S.interests=[];
+  go(1);
+}
+
+function fallbackTask(track){
+  const exec=track==='executor';
+  return{
+    personality_emoji:exec?'⚡':'🔍',
+    personality_type:exec?'硬核执行派':'深度思考派',
+    personality_desc:exec
+      ?`你是那种"想好了就上"的行动派，执行力强，喜欢把事情做出来再说。遇到任务不会反复纠结，直接找方法拿结果。`
+      :`你是那种"先想清楚再动"的思考型选手，分析力强，做事有逻辑框架。你的报告往往有别人没注意到的洞察。`,
+    title:`为${S.career}方向做一次竞品深度拆解`,
+    what:exec
+      ?`选3-5个${S.career}行业头部品牌，直接上手拆它们的内容策略、渠道布局、用户反馈。结合你对${S.interests[0]||'内容'}的兴趣找切入点，做出一份有你自己判断的报告，不是资料堆砌。`
+      :`选3-5个${S.career}行业头部品牌，系统性拆解它们的用户定位、内容逻辑和渠道策略。结合你对${S.interests[0]||'内容'}的理解，建立自己的分析框架，提炼出背后的底层逻辑。`,
+    steps:exec
+      ?['定好分析维度（用户+内容+渠道3层），直接开干',`用${S.period}前半段收集资料：官网/社媒/用户评论/招聘JD`,'整理进飞书多维表，横向对比','写报告，最后一节加"如果我来操盘，我会怎么做"']
+      :['先建分析框架（用户画像/内容策略/渠道表现），理清逻辑',`用${S.period}前半段做资料收集，注意找反常识的数据点`,'用结构化工具整理，找出品牌间的本质差异','报告重点放在洞察和背后的逻辑，而不只是描述现象'],
+    outputs:['竞品对比分析表格1份（3-5个品牌，5个维度）','分析报告1份（不少于4000字）','核心洞察总结卡片1张'],
+    difficulty:S.year==='大一'||S.year==='大二'?'入门':'进阶'
+  };
+}
+
+function fallbackFinal(){
+  const exec=getTrack()==='executor';
+  return{
+    resume_title:`${S.career}竞品调研项目`,
+    resume_lines:exec
+      ?['独立推动'+S.career+'领域竞品分析，拆解行业头部品牌内容策略与渠道逻辑','执行多维度对比框架，产出结构化分析报告及可视化对比表格','落地完整竞品报告1份，提炼可直接执行的品牌策略建议']
+      :['系统性分析'+S.career+'行业竞争格局，深度拆解头部品牌核心策略差异','构建三层分析框架，提炼用户定位/内容逻辑/渠道策略底层规律','产出深度竞品研究报告1份，形成可复用的行业分析方法论'],
+    interview_tips:['从"为什么选这几个品牌"切入，说明选题逻辑，体现主动思考',exec?'准备好最有冲击力的1个数据发现':'准备好最反直觉的1个洞察结论','强调"我不只是收集信息，还有自己的判断"'],
+    next_steps:['把报告发布到知乎/小红书，积累公开作品集','下一步可以尝试用户访谈类项目，增加定性研究能力','投递时备注"可提供完整报告"，主动展示产出物']
+  };
+}
+</script>
+
+</body>
+</html>
